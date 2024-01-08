@@ -13,6 +13,10 @@ class Commition extends Model
     protected $fillable = [
         'amount'
     ];
+    
+    protected $casts = [
+        'created_at'  => 'datetime:Y M d',
+    ];
 
     public function commitionable()
     {

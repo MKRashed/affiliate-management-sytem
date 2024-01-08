@@ -16,6 +16,7 @@ return new class extends Migration
             $table->morphs('commitionable');
             $table->foreignId('transaction_id')->constrained('transactions');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

@@ -43,8 +43,8 @@ class TransactionController extends Controller
         
     public function store(Request $request)
     {
-        
-        $user = User::findOrFail(auth()->user()->id)->whereHas('promocode')->with('promocode.providerPromo')->first();
+
+        $user = User::findOrFail(auth()->user()->id)->load('promocode.providerPromo');
 
         $data = $request->validate([
             'amount'        => ['required'],
@@ -63,9 +63,9 @@ class TransactionController extends Controller
 
             if( $transaction ) {
 
-                $affiliate =  $user->promocode->providerPromo;
+                $affiliate =  $user->promocode->providerPromo ?? '';
 
-                if($affiliate->role === 'subaffiliate')
+                if( $affiliate && $affiliate->role === 'subaffiliate')
                 {
                     $ten_percent = $amount * (10 / 100);
 
@@ -86,10 +86,12 @@ class TransactionController extends Controller
 
 
                 }
-                 else {
+                 
+                if($affiliate) {
+                    
                     $commition = new Commition();
 
-                    $$commition->amount = $amount * (30 / 100);
+                    $commition->amount = $amount * (30 / 100);
 
                     $affiliate->commitions()->save($commition);
                 }

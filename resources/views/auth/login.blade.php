@@ -2,6 +2,8 @@
     <!-- Session Status -->
     <x-auth-session-status class="mb-4" :status="session('status')" />
 
+    <h2 class="text-center text-xl text-blue-600 font-bold p-4">User Login</h2>
+
     <form method="POST" action="{{ route('login') }}">
         @csrf
 
@@ -43,5 +45,19 @@
                 {{ __('Log in') }}
             </x-primary-button>
         </div>
+        <div class="flex gap-4 p-4">
+            <a class="inline-flex items-center px-4 py-2 bg-blue-800 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 focus:bg-gray-700 active:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition ease-in-out duration-150" href="{{ route('affiliate.login') }}">
+                {{ __('Affiliate User Login') }}
+            </a>
+            <a class="inline-flex items-center px-4 py-2 bg-blue-800 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 focus:bg-gray-700 active:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition ease-in-out duration-150" href="{{ route('affiliate.login') }}">
+                {{ __('Admin Login') }}
+            </a>
+        <div>
+        </div>
+        <div>
+
+        </div>
+
+
     </form>
 </x-guest-layout>

@@ -19,11 +19,23 @@ class AffiliateController extends Controller
      */
     public function index()
     {
-        $userId  =  auth()->user()->id;
 
-        $commitions = Commition::where('commitionable_id', $userId)->get();
+     $own_commitions = Affiliate::findOrFail(auth()->user()->id)->load('commitions:id,commitionable_id,amount,created_at');
 
-        return view('affiliate.dashboard', compact('commitions'));
+     $data = [];
+
+     if($own_commitions->role === 'affiliate'){
+
+        $childs = Promocode::where('assignable_id' , $own_commitions->id)
+        ->with('providerPromo.commitions:id,commitionable_id,amount,created_at')
+        ->get()->toArray();
+
+        foreach($childs  as $child)
+        {
+           $data[] = $child['provider_promo'];
+        }
+     }
+     return view('affiliate.dashboard', compact(['own_commitions','data']));
     }
 
     /**
